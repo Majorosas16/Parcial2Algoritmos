@@ -4,7 +4,7 @@ import Storage from '../utils/storage';
 
 //El estado global, appState
 const initialState: AppState = {
-	screen: 'LOGIN',
+	screen: 'DASHBOARD',
 	itemsList: [],
 };
 

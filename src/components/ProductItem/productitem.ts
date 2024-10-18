@@ -8,7 +8,7 @@ export enum Atributte {
 	'category' = 'category',
     'bio' = 'bio',
 	'image' = 'image',
-	'stock' = 'stock',
+	'rating' = 'rating',
 }
 
 class ProductItem extends HTMLElement {
@@ -18,7 +18,8 @@ class ProductItem extends HTMLElement {
 	category?: string;
     bio?: string;
 	image?: string;
-	stock?: boolean;
+	rating?: string;
+	// stock?: boolean;
 
 
 	constructor() {
@@ -48,9 +49,9 @@ class ProductItem extends HTMLElement {
 				this.price = newValue ? Number(newValue) : undefined;
 				break;
 
-			case Atributte.stock:
-				this.stock = newValue ? newValue === 'true' : undefined;
-				break;
+			// case Atributte.stock:
+			// 	this.stock = newValue ? newValue === 'true' : undefined;
+			// 	break;
 
 			default:
 				this[propName] = newValue;
@@ -69,7 +70,7 @@ class ProductItem extends HTMLElement {
                 <p>${this.price}</p>
                 <p>${this.category}</p>
                 <p>${this.bio}</p>
-                <p>Stock: ${this.stock? "Disponible": "No Disponible"} </p>
+				<p>${this.rating}</p>
 				<button class="delete">Eliminar</button>
                 <button class="edit">Editar</button>
 			</div>

@@ -1,52 +1,52 @@
 import { addObserver, appState } from "../store/store";
-import { addProductsList } from "../store/actions";
-import Product, { Attribute } from '../components/product/product';
-import ShoppingCartItem , { AttributeShoppingCart } from "../components/shoppingCartItem/shoppingCartItem";
+import { addItem } from "../store/actions";
+import ProductItem, { Atributte } from '../components/ProductItem/productitem';
+import ProductList , { AttributeList } from "../components/ProductList/productlist";
 
 //Import API
 import { getProducts } from "../services/getProducts";
 
 class Dashboard extends HTMLElement {
 
-    products: Product[] = [];
-    shoppingCart: ShoppingCartItem[] = [];
+    products: ProductItem[] = [];
+    shoppingCart: ProductList[] = [];
 	dataProducts: any[] = [];
 
 	constructor() {
 		super();
 		this.attachShadow({ mode: 'open' });
-		addObserver(this) // voy agregar un observador aquí. eso significa que al arreglo de observadores el store.ts se le agrega esta clase (dashboard.ts)
+		addObserver(this)
 		
 	}
 
 	async connectedCallback() {
 		this.dataProducts = await getProducts();
 		this.createCardsProduct();
-		this.createCardsShoppingItem();
+		this.createCardsListItem();
 		this.render();
 	}
 
 	createCardsProduct ()  {
 		this.dataProducts.forEach(productData => {
-			const product = this.ownerDocument.createElement('product-card') as Product;
-			product.setAttribute(Attribute.image, productData.image);
-			product.setAttribute(Attribute.titleproduct, productData.title);
-			product.setAttribute(Attribute.description, productData.description);
-			product.setAttribute(Attribute.category, productData.category);
-			product.setAttribute(Attribute.price, productData.price);
-			product.setAttribute(Attribute.rating, productData.rating.rate); 
+			const product = this.ownerDocument.createElement('product-item') as ProductItem;
+			product.setAttribute(Atributte.image, productData.image);
+			product.setAttribute(Atributte.name, productData.title);
+			product.setAttribute(Atributte.bio, productData.description);
+			product.setAttribute(Atributte.category, productData.category);
+			product.setAttribute(Atributte.price, productData.price);
+			product.setAttribute(Atributte.rating, productData.rating.rate); 
 			
 			this.products.push(product);
 		 
 			});
 		}
 
-		createCardsShoppingItem ()  {
-            appState.shoppingList.forEach((element: any) => {
-                const product = this.ownerDocument.createElement('shopping-card') as ShoppingCartItem; 
-                product.setAttribute(AttributeShoppingCart.image, element.image);
-                product.setAttribute(AttributeShoppingCart.titleproduct, element.title);
-                product.setAttribute(AttributeShoppingCart.price, element.price);
+		createCardsListItem ()  {
+            appState.itemsList.forEach((element: any) => {
+                const product = this.ownerDocument.createElement('productlist-component') as ProductList; 
+                product.setAttribute(AttributeList.image, element.image);
+                product.setAttribute(AttributeList.titleproduct, element.title);
+                product.setAttribute(AttributeList.price, element.price);
                 
                 this.shoppingCart.push(product);
         
@@ -56,7 +56,6 @@ class Dashboard extends HTMLElement {
 	render() {
 		if (this.shadowRoot){
 			this.shadowRoot.innerHTML = `
-			<link rel="stylesheet" href="../src/index.css">
 		   <h1>Store Products</h1>
 		   <hr>
 		   <div class="container-products"></div>
@@ -65,10 +64,6 @@ class Dashboard extends HTMLElement {
 		   <hr>
 		   <div class="container-shopping"></div>
 		   `;
-	
-		//    const dashboard = this.ownerDocument.createElement('app-dashboard');
-		//    this.shadowRoot?.appendChild(dashboard);
-	
 	
 		   const container = this.shadowRoot?.querySelector('.container-products');
 		   this.products.forEach((product) => {
@@ -81,13 +76,6 @@ class Dashboard extends HTMLElement {
 		   });
 
 		}
-		// const btn = this.ownerDocument.createElement('button');
-		// btn.innerText = 'Cambiar background';
-		// btn.addEventListener('click',()=>{
-		// 	dispatch(addProductsList)
-		// })
-		// this.shadowRoot?.appendChild(btn);
-	
 	}
 }
 
