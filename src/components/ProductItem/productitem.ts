@@ -62,6 +62,7 @@ class ProductItem extends HTMLElement {
 
 	render() {
 		if (this.shadowRoot) this.shadowRoot.innerHTML = `
+		<link rel="stylesheet" href="../src/components/ProductItem/productitem.css">
 			<div class="divItem">
             <div class="img">
             <img src="${this.image}" alt="${this.name}">
